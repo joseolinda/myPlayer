@@ -202,7 +202,7 @@
 .myplayer-app .controllers .songs-control li {
     display: block;
     margin: 10px;
-    font-size: 48px;
+    font-size: calc(1.5 * var(--gap));
 }
 
 .myplayer-app .controllers .songs-control li a {
@@ -217,10 +217,10 @@
     align-items: center;
     background-image: linear-gradient(#9d8efe, #7661FE, #634AFD);
     color: #ffffff;
-    width: calc(5 * var(--gap));
-    height: calc(5 * var(--gap));
+    width: calc(4 * var(--gap));
+    height: calc(4 * var(--gap));
     border-radius: 50%;
-    font-size: 64px;
+    font-size: calc(1.5 * var(--gap));
     transition: background-image 3s;
 }
 
@@ -273,24 +273,4 @@
         --gap: 24px;
         --inner-gap: 12px;
     }    
-}
-@media screen and (min-width: 560px) and (max-width: 768px) {
-    body {
-        color: red;
-    }    
-}
-@media screen and (min-width: 769px), print {
-    body {
-        color: green;
-    }
-}
-@media screen and (min-width: 1024px) {
-    body {
-        color: blue;
-    }
-}
-@media screen and (min-width: 1216px) {
-    body {
-        color: #151515;
-    }
 }
