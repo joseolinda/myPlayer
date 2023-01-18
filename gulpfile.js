@@ -12,7 +12,7 @@ gulp.task('buildStyles', () => {
 
 gulp.task('icons', () => {
     return gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/*')
-        .pipe(gulp.dest('./dist/assets/webfonts/'));
+        .pipe(gulp.dest('./dist/webfonts'));
 });
  
 gulp.task('minify-css', () => {
@@ -23,6 +23,6 @@ gulp.task('minify-css', () => {
 
 gulp.task('watch', () => {
   gulp.watch('./src/scss/**/*.scss', (done) => {
-      gulp.series(['buildStyles', 'minify-css'])(done);
+      gulp.series(['icons', 'buildStyles', 'minify-css'])(done);
   });
 });
