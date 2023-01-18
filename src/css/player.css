@@ -1,0 +1,110 @@
+:root {
+    --gap: 32px;
+    --inner-gap: 16px;
+}
+
+.myplayer-app {
+    background: #F0F0F0;
+    margin: var(--gap);
+    border: thin solid #E5E5E5;
+    border-radius: var(--inner-gap);
+}
+
+.myplayer-app ul {
+    margin: 0;
+    padding: 0;
+}
+
+.myplayer-app li {
+    list-style: none;
+}
+
+.myplayer-app a {
+    text-decoration: none;
+}
+
+.myplayer-app header,
+.myplayer-app main,
+.myplayer-app footer {
+    width: 100%;
+}
+
+.myplayer-app header {
+    height: calc(300px + var(--gap));
+    font-weight: 600;
+    color: #F0F0F0;
+    position: relative;
+    background-color: #151515;
+    border-top-left-radius: var(--inner-gap);
+    border-top-right-radius: var(--inner-gap);
+}
+
+.myplayer-app .album-cover {
+    height: 100%; 
+    width: 100%; 
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: var(--inner-gap);
+    border-top-right-radius: var(--inner-gap);
+    opacity: 0.7;
+    z-index: 1;
+}
+
+.myplayer-app .navigation {
+    position: relative;
+    z-index: 10;
+    padding: var(--gap);
+}
+
+.myplayer-app .navigation ul {
+    display: flex;
+    direction: row;
+    justify-content: space-between;
+}
+
+.myplayer-app .navigation li {
+    display: inline-block;
+}
+
+.myplayer-app .navigation li a {
+    display: block;
+    color: #F0F0F0;
+    cursor: default;
+}
+
+.myplayer-app .navigation li a .fa:hover {
+    display: block;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+
+/* Responsividade */ 
+@media screen and (max-width: 559px) {
+    :root {
+        --gap: 24px;
+        --inner-gap: 12px;
+    }    
+}
+@media screen and (min-width: 560px) and (max-width: 768px) {
+    body {
+        color: red;
+    }    
+}
+@media screen and (min-width: 769px), print {
+    body {
+        color: green;
+    }
+}
+@media screen and (min-width: 1024px) {
+    body {
+        color: blue;
+    }
+}
+@media screen and (min-width: 1216px) {
+    body {
+        color: yellow;
+    }
+}
