@@ -7,6 +7,7 @@
 :root {
     --gap: 32px;
     --inner-gap: 16px;
+    --size-app: 680px;
 }
 
 .myplayer-app {
@@ -15,6 +16,8 @@
     border: thin solid #E5E5E5;
     border-radius: var(--inner-gap);
     position: relative;
+    width: calc(100% - var(--gap));
+    max-width: calc(var(--size-app) - var(--gap));
 }
 
 .myplayer-app ul {
@@ -94,6 +97,7 @@
     background-color: #ffffff;
     border-radius: 0 96px 96px 96px;
     z-index: 11;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.12), 0 1px 8px rgba(0,0,0,0.12);
 }
 
 .myplayer-app main::before {
@@ -125,7 +129,7 @@
     flex-direction: row;
     justify-content: space-between;
     font-weight: 600;
-    color: #080808;
+    color:  #a4a2a2;
 }
 
 .myplayer-app .progress-bar {
@@ -163,6 +167,27 @@
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
+.myplayer-app #music-playing {
+    text-align: center;
+    position: relative;
+}
+
+.myplayer-app #music-playing h1,
+.myplayer-app #music-playing h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: #080808;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+
+.myplayer-app #music-playing h2 {
+    font-size: 18px;
+    color:  #a4a2a2;
+}
 
 
 /* Responsividade */ 
