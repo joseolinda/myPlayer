@@ -235,6 +235,10 @@
     padding-left: 10px;
 }
 
+.myplayer-app .controllers .songs-control li a.pause i {
+    padding-left: 0;
+}
+
 .myplayer-app #playlist-controls {
     padding: calc(var(--gap));
     background-color: #ffffff;
@@ -252,7 +256,7 @@
     color: #634AFD;
 }
 
-.myplayer-app #playlist-controls #show-playlist li a:not(.pause) i {
+.myplayer-app #playlist-controls #show-playlist i {
     display: inline-block;
     padding-top: 4px;
     padding-right: 16px;
