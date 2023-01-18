@@ -7,12 +7,12 @@
 :root {
     --gap: 32px;
     --inner-gap: 16px;
-    --size-app: 680px;
+    --size-app: 580px;
 }
 
 .myplayer-app {
     background: #F0F0F0;
-    margin: var(--gap);
+    margin: var(--gap) var(--gap) 0 var(--gap);
     border: thin solid #E5E5E5;
     border-radius: var(--inner-gap);
     position: relative;
@@ -164,7 +164,7 @@
     margin-top: -3px;
     margin-left: calc(50% - 18px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
 .myplayer-app #music-playing {
@@ -209,7 +209,8 @@
     color: #080808;
 }
 
-.myplayer-app .controllers .songs-control li a.play {
+.myplayer-app .controllers .songs-control li a.play,
+.myplayer-app .controllers .songs-control li a.pause {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,9 +220,45 @@
     height: calc(5 * var(--gap));
     border-radius: 50%;
     font-size: 64px;
+    transition: background-image 3s;
 }
+
+.myplayer-app .controllers .songs-control li a.play:hover,
+.myplayer-app .controllers .songs-control li a.pause:hover  {
+    background-image: linear-gradient(to right, #9d8efe, #7661FE, #634AFD);
+    color: #ffffff;
+    transition: background-image 3s;
+}
+
 .myplayer-app .controllers .songs-control li a.play i {
-    padding-left: 10px;;
+    padding-left: 10px;
+}
+
+.myplayer-app #playlist-controls {
+    padding: calc(var(--gap));
+    background-color: #ffffff;
+    border-radius: 96px 96px  0 0;
+    text-align: center;
+    box-shadow: 0 -2px 24px rgba(0,0,0,0.12), 0 -1px 8px rgba(0,0,0,0.12);
+}
+
+.myplayer-app #playlist-controls #show-playlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #634AFD;
+}
+
+.myplayer-app #playlist-controls #show-playlist i {
+    display: inline-block;
+    padding-top: 4px;
+    padding-right: 16px;
+}
+
+.myplayer-app .playlist-container {
+    display: none;
 }
 
 
