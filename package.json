@@ -1,0 +1,27 @@
+{
+  "name": "myplayer",
+  "version": "1.0.0",
+  "description": "HTML5 Player build with Vanilla JS",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joseolinda/myPlayer.git"
+  },
+  "keywords": [
+    "html",
+    "html5",
+    "javascript",
+    "vanilla",
+    "music player",
+    "player"
+  ],
+  "author": "joseolinda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joseolinda/myPlayer/issues"
+  },
+  "homepage": "https://github.com/joseolinda/myPlayer#readme"
+}
