@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/joseolinda/myPlayer/issues"
   },
-  "homepage": "https://github.com/joseolinda/myPlayer#readme"
+  "homepage": "https://github.com/joseolinda/myPlayer#readme",
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
 }
