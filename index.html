@@ -18,28 +18,29 @@
           <header>
             <nav class="navigation">
               <ul>
-                <li><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-                <li>now playing</li>
-                <li><a href="#"><i class="fa-regular fa-heart"></i></a></li>
+                <li><a id="back-to-playlist" href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+                <li id="status-song">now playing</li>
+                <li><a id="fav-song" href="#"><i class="fa-regular fa-heart"></i></a></li>
               </ul>
             </nav>
-            <img src="src/js/media/images/default-cover.jpg" alt="Album cover" class="album-cover">
+            <img id="album-cover" src="src/js/media/images/default-cover.jpg" alt="Album cover" class="album-cover">
           </header>
           <main>
             <div id="main-controllers">
               <div class="progress">
                 <div class="duration">
-                  <span class="current-duration">1:24</span>
-                  <span class="total-duration">2:46</span>
+                  <span id="current-duration">1:24</span>
+                  <span id="total-duration">2:46</span>
                 </div>
-                <div class="progress-bar"></div>
+                <div data-current-duration="0" id="progress-bar" class="progress-bar"></div>
               </div>
               <div id="music-playing">
                 <h1>Different World (feat. Gorillaz)</h1>
                 <h2>Alan Walker, Gorillaz</h2>
+                <audio id="song" src="/src/js/media/musics/hey.mp3" id="audio"></audio>
               </div>
               <div class="controllers">
-                <ul class="songs-control">
+                <ul id="songs-control" class="songs-control">
                   <li><a class="prev" href="#"><i class="fa-solid fa-backward"></i></a></li>
                   <li><a class="play" href="#"><i class="fa-solid fa-play"></i></a></li>
                   <li><a class="next" href="#"><i class="fa-solid fa-forward"></i></a></li>
