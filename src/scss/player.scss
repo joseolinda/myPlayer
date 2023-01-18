@@ -170,13 +170,14 @@
 .myplayer-app #music-playing {
     text-align: center;
     position: relative;
+    margin-top: var(--gap);
 }
 
 .myplayer-app #music-playing h1,
 .myplayer-app #music-playing h2 {
-    margin: 0;
+    margin: 8px;
     padding: 0;
-    font-size: 24px;
+    font-size: 30px;
     color: #080808;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -185,7 +186,7 @@
 }
 
 .myplayer-app #music-playing h2 {
-    font-size: 18px;
+    font-size: 24px;
     color:  #a4a2a2;
 }
 
@@ -251,7 +252,7 @@
     color: #634AFD;
 }
 
-.myplayer-app #playlist-controls #show-playlist i {
+.myplayer-app #playlist-controls #show-playlist li a:not(.pause) i {
     display: inline-block;
     padding-top: 4px;
     padding-right: 16px;
