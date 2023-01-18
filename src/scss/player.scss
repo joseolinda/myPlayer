@@ -210,8 +210,7 @@
     color: #080808;
 }
 
-.myplayer-app .controllers .songs-control li a.play,
-.myplayer-app .controllers .songs-control li a.pause {
+.myplayer-app .controllers .songs-control li a.play {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,8 +223,7 @@
     transition: background-image 3s;
 }
 
-.myplayer-app .controllers .songs-control li a.play:hover,
-.myplayer-app .controllers .songs-control li a.pause:hover  {
+.myplayer-app .controllers .songs-control li a.play:hover  {
     background-image: linear-gradient(to right, #9d8efe, #7661FE, #634AFD);
     color: #ffffff;
     transition: background-image 3s;
@@ -235,7 +233,7 @@
     padding-left: 10px;
 }
 
-.myplayer-app .controllers .songs-control li a.pause i {
+.myplayer-app .controllers .songs-control li a.play.playing i {
     padding-left: 0;
 }
 
