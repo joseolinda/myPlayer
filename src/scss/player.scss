@@ -189,6 +189,41 @@
     color:  #a4a2a2;
 }
 
+.myplayer-app .controllers .songs-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--inner-gap);
+    align-items: center;
+    padding-top: var(--gap);
+}
+
+.myplayer-app .controllers .songs-control li {
+    display: block;
+    margin: 10px;
+    font-size: 48px;
+}
+
+.myplayer-app .controllers .songs-control li a {
+    display: block;
+    color: #080808;
+}
+
+.myplayer-app .controllers .songs-control li a.play {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(#9d8efe, #7661FE, #634AFD);
+    color: #ffffff;
+    width: calc(5 * var(--gap));
+    height: calc(5 * var(--gap));
+    border-radius: 50%;
+    font-size: 64px;
+}
+.myplayer-app .controllers .songs-control li a.play i {
+    padding-left: 10px;;
+}
+
 
 /* Responsividade */ 
 @media screen and (max-width: 559px) {
