@@ -56,11 +56,11 @@ loadSong(songs[songIndex])
 // Mostrar informações da música
 function loadSong(songObj) {
     songTitle.innerText = songObj.songName
-    albumCoverImg.src = `/src/js/media/images/${songObj.cover}`
+    albumCoverImg.src = `src/js/media/images/${songObj.cover}`
     songArtists.innerText = songObj.artist
     
 
-    song.src = `/src/js/media/musics/${songObj.file}.mp3`
+    song.src = `src/js/media/musics/${songObj.file}.mp3`
 }
 
 // Tocar Música
