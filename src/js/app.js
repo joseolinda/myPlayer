@@ -60,11 +60,10 @@ songs.push(... localSongs)
 const songsFromNapster = apiNapster()
 songsFromNapster.then(tracks => {
     songs.push(...tracks)
-    return songs
 }).catch(err => console.log("Erro na API Napster", err))
 
 // Música atual
-let songIndex = 2
+let songIndex = 0
 
 // Iniciar player
 loadSong(songs[songIndex])
@@ -72,11 +71,10 @@ loadSong(songs[songIndex])
 // Mostrar informações da música
 function loadSong(songObj) {
     songTitle.innerText = songObj.name
-    albumCoverImg.src = `src/js/media/images/${songObj.cover}`
+    albumCoverImg.src = songObj.type === "local" ? `src/js/media/images/${songObj.albumId}` : `http://direct.rhapsody.com/imageserver/v2/albums/${songObj.albumId}/images/400x400.jpg`
     songartistNames.innerText = songObj.artistName
     
-
-    song.src = `src/js/media/musics/${songObj.previewURL}.mp3`
+    song.src = songObj.type === "local" ? `src/js/media/musics/${songObj.previewURL}.mp3` : songObj.previewURL
 }
 
 // Tocar Música
