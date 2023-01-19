@@ -252,16 +252,8 @@
     background-color: #ffffff;
     border-radius: 96px 96px  0 0;
     text-align: center;
+    font-size: 1.2rem;
     box-shadow: 0 -2px 24px rgba(0,0,0,0.12), 0 -1px 8px rgba(0,0,0,0.12);
-}
-
-.myplayer-app #playlist-controls #show-playlist {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: #634AFD;
 }
 
 .myplayer-app #playlist-controls #show-playlist i {
@@ -270,8 +262,156 @@
     padding-right: 16px;
 }
 
+.myplayer-app footer.view-playlist {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: var(--inner-gap) 4px 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.12);
+    border-radius: var(--inner-gap);
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
 .myplayer-app .playlist-container {
     display: none;
+}
+
+.myplayer-app .view-playlist #playlist-controls {
+    border-radius: calc(2* var(--gap)) calc(2 * var(--gap)) 0 0;
+    padding: var(--gap) var(--gap) 0 var(--gap);
+    background-color: #F0F0F0;
+    text-align: right;
+}
+
+.myplayer-app .view-playlist #playlist-controls #show-playlist {
+    font-size: 2rem;
+}
+
+.myplayer-app .view-playlist #playlist-controls .fa-bars-staggered::before {
+    content: '\f00d';
+}
+
+.myplayer-app .view-playlist #playlist-controls a {
+    display: inline-block;
+}
+
+.myplayer-app .view-playlist #playlist-controls span {
+    display: none;
+}
+
+.myplayer-app .view-playlist #show-playlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #634AFD;
+}
+
+.myplayer-app .view-playlist .playlist-container {
+    display: flex;
+    flex-direction: column;
+    background: #F0F0F0;
+    padding: 0 var(--gap) var(--gap) var(--gap);
+    height: 100%;
+}
+
+.myplayer-app .view-playlist .playlist-container h1 {
+    font-size: 24px;
+    color: #080808;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--inner-gap);
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list li {
+    background: #fff;
+    padding: var(--inner-gap);
+    border-radius: var(--inner-gap);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-play i {
+    font-weight: 2rem;
+    color: #634AFD;
+    padding: var(--inner-gap) calc(1.1 * var(--inner-gap));
+    border: thin solid #634AFD;
+    border-radius: 50%;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-play i:hover {
+    cursor: pointer;
+    color: #7661FE;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-play i.fa-play::before {
+    margin-left: 2px;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-play i.fa-pause::before {
+    margin: 0 2px;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-grow: 4;
+    padding: 0 var(--inner-gap);
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-text strong {
+    font-size: 1.3rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-text em {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: #a4a2a2;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.myplayer-app .view-playlist .playlist-container .songs-list .song-item-duration {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-weight: 600;
+    color:  #a4a2a2;
+}
+
+.myplayer-app .view-playlist .playlist-container .song-details {
+    cursor: pointer;
+}
+
+.myplayer-app .view-playlist .playlist-container .song-details.active-song .song-item-play i {
+    color: #fff;
+    background-image: linear-gradient(to right, #9d8efe, #7661FE, #634AFD);
+}
+
+.myplayer-app .view-playlist .playlist-container .song-details.active-song:hover .song-item-play i {
+    background-image: linear-gradient(to bottom, #9d8efe, #7661FE, #634AFD);
+}
+
+.myplayer-app .view-playlist .playlist-container .song-details.active-song .song-item-text strong {
+    color: #7661FE;
 }
 
 
