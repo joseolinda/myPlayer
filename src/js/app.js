@@ -56,11 +56,11 @@ loadSong(songs[songIndex])
 // Mostrar informações da música
 function loadSong(songObj) {
     songTitle.innerText = songObj.songName
-    albumCoverImg.src = `/src/js/media/images/${songObj.cover}`
+    albumCoverImg.src = `src/js/media/images/${songObj.cover}`
     songArtists.innerText = songObj.artist
     
 
-    song.src = `/src/js/media/musics/${songObj.file}.mp3`
+    song.src = `src/js/media/musics/${songObj.file}.mp3`
 }
 
 // Tocar Música
@@ -97,7 +97,7 @@ function prevSong(e) {
 
 // Avançar Música
 function nextSong(e) {
-    e.preventDefault()
+    if(e) e.preventDefault()
 
     songIndex++
 
@@ -132,8 +132,6 @@ function updateProgressOnClick(e) {
     const { duration } = song
     const clickedPercent = e.layerX * 100 / e.target.clientWidth
 
-    console.log(duration, clickedPercent, duration * clickedPercent / 100)
-
     song.currentTime = 0
     song.currentTime = (duration * clickedPercent.toFixed(0) / 100).toFixed(0)
 }
@@ -158,3 +156,8 @@ nextSongBtn.addEventListener("click", nextSong)
 
 song.addEventListener('timeupdate', updateProgress)
 progressBarContainer.addEventListener("click", updateProgressOnClick)
+
+// Tocar próxima música quando a atual acabar
+song.addEventListener("ended", () => {
+    setTimeout(nextSong, 400)
+})
