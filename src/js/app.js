@@ -1,3 +1,5 @@
+import apiNapster from "../js/services/apiNapster.js"
+
 // Mapear elementos
 const backBtn               = document.querySelector("#back-to-playlist")
 const favBtn                = document.querySelector("#fav-song")
@@ -11,7 +13,7 @@ const progressBarContainer  = document.querySelector(".progress-bar-container")
 
 const song                  = document.querySelector("#song")
 const songTitle             = document.querySelector("#music-playing h1")
-const songArtists           = document.querySelector("#music-playing h2")
+const songartistNames           = document.querySelector("#music-playing h2")
 
 const prevSongBtn           = document.querySelector("#songs-control a.prev")
 const playSongBtn           = document.querySelector("#songs-control a.play")
@@ -26,26 +28,40 @@ const playlistContainer     = document.querySelector(".playlist-container")
 const songsPlaylis          = document.querySelector(".playlist-container .songs-list")
 
 // Lista de músicas
-const songs = [
+const localSongs = [
     {
-        file: "hey",
-        songName: "Hey [Instumental]",
-        artist: "The Beatles",
-        cover: "hey.jpg",
+        previewURL: "hey",
+        name: "Hey [Instumental]",
+        artistName: "The Beatles",
+        albumId: "hey.jpg",
+        type: "local"
     },
     {
-        file: "summer",
-        songName: "Summer Beats",
-        artist: "Summer EletroHits",
-        cover: "summer.jpg",
+        previewURL: "summer",
+        name: "Summer Beats",
+        artistName: "Summer EletroHits",
+        albumId: "summer.jpg",
+        type: "local"
     },
     {
-        file: "ukulele",
-        songName: "Ukulele Song",
-        artist: "Eddie Vader",
-        cover: "ukulele.jpg",
+        previewURL: "ukulele",
+        name: "Ukulele Song",
+        artistName: "Eddie Vader",
+        albumId: "ukulele.jpg",
+        type: "local"
     },
 ]
+
+let songs = []
+songs.push(... localSongs)
+
+
+// Conectar api
+const songsFromNapster = apiNapster()
+songsFromNapster.then(tracks => {
+    songs.push(...tracks)
+    return songs
+}).catch(err => console.log("Erro na API Napster", err))
 
 // Música atual
 let songIndex = 2
@@ -55,12 +71,12 @@ loadSong(songs[songIndex])
 
 // Mostrar informações da música
 function loadSong(songObj) {
-    songTitle.innerText = songObj.songName
+    songTitle.innerText = songObj.name
     albumCoverImg.src = `src/js/media/images/${songObj.cover}`
-    songArtists.innerText = songObj.artist
+    songartistNames.innerText = songObj.artistName
     
 
-    song.src = `src/js/media/musics/${songObj.file}.mp3`
+    song.src = `src/js/media/musics/${songObj.previewURL}.mp3`
 }
 
 // Tocar Música
