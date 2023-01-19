@@ -4,7 +4,9 @@
   "description": "HTML5 Player build with Vanilla JS",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp icons buildStyles minify-css",
+    "serve": "http-server"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-sass": "^5.1.0",
+    "http-server": "^14.1.1",
     "node-sass": "^8.0.0",
     "sass": "^1.57.1"
   }
