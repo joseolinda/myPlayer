@@ -6,7 +6,8 @@ const albumCoverImg         = document.querySelector("#album-cover")
 
 const currentDuration       = document.querySelector("#current-duration")
 const totalDuration         = document.querySelector("#total-duration")
-const progressBar           = document.querySelector("#total-duration")
+const progressBar           = document.querySelector("#progress-bar")
+const progressBarContainer  = document.querySelector(".progress-bar-container")
 
 const song                  = document.querySelector("#song")
 const songTitle             = document.querySelector("#music-playing h1")
@@ -65,19 +66,19 @@ function loadSong(songObj) {
 // Tocar Música
 function playSong() {
     playSongBtn.classList.add("playing")
-    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-play');
-    playSongBtn.querySelector('i.fa-solid').classList.add('fa-pause');
+    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-play')
+    playSongBtn.querySelector('i.fa-solid').classList.add('fa-pause')
   
-    song.play();
+    song.play()
 }
 
 // Parar Música
 function pauseSong() {
     playSongBtn.classList.remove("playing")
-    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-pause');
-    playSongBtn.querySelector('i.fa-solid').classList.add('fa-play');
+    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-pause')
+    playSongBtn.querySelector('i.fa-solid').classList.add('fa-play')
   
-    song.pause();
+    song.pause()
 }
 
 // Voltar Música
@@ -107,6 +108,36 @@ function nextSong(e) {
     playSong()
 }
 
+// Converter duração em minutos e segundos
+function convertDuration(audioCurrentTime) {
+    const minutes = String(Math.floor(audioCurrentTime / 60)).padStart(2, '0')
+    const seconds = String(Math.floor(audioCurrentTime - minutes * 60)).padStart(2, '0')
+    const dur = minutes.substring(-2) + ":" + seconds.substring(-2)
+
+    return dur
+}
+
+// Atualizar barra de progresso
+function updateProgress(e) {
+    const { duration, currentTime } = e.srcElement
+    const progressPercent = (currentTime / duration) * 100
+    progressBar.style.width = `${progressPercent}%`
+
+    currentDuration.innerText = currentTime ? convertDuration(currentTime) : "--:--"
+    totalDuration.innerText = duration ? convertDuration(duration) : "--:--"
+}
+
+// Atualizar barra de progresso ao clicar na barra
+function updateProgressOnClick(e) {
+    const { duration } = song
+    const clickedPercent = e.layerX * 100 / e.target.clientWidth
+
+    console.log(duration, clickedPercent, duration * clickedPercent / 100)
+
+    song.currentTime = 0
+    song.currentTime = (duration * clickedPercent.toFixed(0) / 100).toFixed(0)
+}
+
 // Eventos
 playSongBtn.addEventListener("click", (e) => {
     e.preventDefault()
@@ -124,3 +155,6 @@ playSongBtn.addEventListener("click", (e) => {
 
 prevSongBtn.addEventListener("click", prevSong)
 nextSongBtn.addEventListener("click", nextSong)
+
+song.addEventListener('timeupdate', updateProgress)
+progressBarContainer.addEventListener("click", updateProgressOnClick)

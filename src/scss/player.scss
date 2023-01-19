@@ -140,6 +140,17 @@
     margin: 12px 0;
     z-index: 10;
 }
+.myplayer-app .progress-bar-container::after {
+    position: absolute;
+    content: " ";
+    background-color: transparent;
+    height: 12px;
+    width: 100%;
+    border-radius: 6px;
+    margin: 12px 0;
+    z-index: 16;
+    top: -12px;
+}
 
 .myplayer-app .progress-bar {
     display: block;
@@ -147,7 +158,7 @@
     background-color: #7661FE;
     height: 12px;
     border-radius: 6px;
-    z-index: 16;
+    z-index: 11;
     width: 0;
 }
 
