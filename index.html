@@ -20,7 +20,7 @@
             <nav class="navigation">
               <ul>
                 <li><a id="back-to-playlist" href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-                <li id="status-song">now playing</li>
+                <li id="status-song"></li>
                 <li><a id="fav-song" href="#"><i class="fa-regular fa-heart"></i></a></li>
               </ul>
             </nav>
@@ -55,30 +55,15 @@
             <div id="playlist-controls">
               <a href="#" id="show-playlist"><i class="fa-solid fa-bars-staggered"></i><span>Abrir Playlist</span></a>
             </div>
-            <div class="playlist-container">
-              <h1>Playlist</h1>
+            <div id="playlist-container" class="playlist-container">
+              <h1>
+                <span>Playlist</span>
+                <a id="load-more" href="#">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Mais música
+                </a>
+              </h1>
               <ul class="songs-list">
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
-                <li class="song-details">
-                  <i class="song-icon">icon</i><strong class="song-name">My Boo</strong><em class="song-artist">Usher, Alicia Keys</em><span class="song-duration">2:46</span>
-                </li>
+                
               </ul>
             </div>
           </footer>
