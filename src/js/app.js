@@ -23,8 +23,6 @@ const nextSongBtn = document.querySelector("#songs-control a.next")
 const footer = document.querySelector("footer")
 const playlistControls = document.querySelector("#playlist-controls")
 const showPlaylist = document.querySelector("#show-playlist")
-const showPlaylistIcon = document.querySelector("#show-playlist i")
-const showPlaylistText = document.querySelector("#show-playlist span")
 
 const playlistContainer = document.querySelector(".playlist-container")
 const songsPlaylist = document.querySelector(".playlist-container .songs-list")
@@ -201,6 +199,9 @@ nextSongBtn.addEventListener("click", nextSong)
 
 song.addEventListener('timeupdate', updateProgress)
 progressBarContainer.addEventListener("click", updateProgressOnClick)
+favBtn.addEventListener("click", e => {
+    favBtn.style.color = "#f09"
+})
 
 // Tocar próxima música quando a atual acabar
 song.addEventListener("ended", () => {
@@ -265,3 +266,4 @@ songsPlaylist.addEventListener("click", e => {
     handelClickSongInPlaylist(e.target)
 })
 songsPlaylist.addEventListener("touchend", () => songsPlaylist.click())
+backBtn.addEventListener("click", handelShowPlaylist)
