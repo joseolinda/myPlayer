@@ -25,6 +25,7 @@ const playlistControls = document.querySelector("#playlist-controls")
 const showPlaylist = document.querySelector("#show-playlist")
 
 const playlistContainer = document.querySelector(".playlist-container")
+const loadMoreSongsBtn = document.querySelector("#load-more")
 const songsPlaylist = document.querySelector(".playlist-container .songs-list")
 
 // Lista de músicas
@@ -81,10 +82,14 @@ proxySongs.push(...localSongs)
 
 
 // Conectar api
-const songsFromNapster = apiNapster()
-songsFromNapster.then(tracks => {
+function getMoreSongs(total, offset) {
+    const songsFromNapster = apiNapster(total, offset)
+    songsFromNapster.then(tracks => {
     proxySongs.push(...tracks)
-}).catch(err => console.log("Erro na API Napster", err))
+    }).catch(err => console.log("Erro na API Napster", err))
+}
+
+getMoreSongs(5, 0)
 
 // Música atual
 let songIndex = 0
@@ -267,3 +272,6 @@ songsPlaylist.addEventListener("click", e => {
 })
 songsPlaylist.addEventListener("touchend", () => songsPlaylist.click())
 backBtn.addEventListener("click", handelShowPlaylist)
+loadMoreSongsBtn.addEventListener("click", e => {
+    getMoreSongs(5, 5)
+})

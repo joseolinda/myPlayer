@@ -323,8 +323,33 @@
 }
 
 .myplayer-app .view-playlist .playlist-container h1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 24px;
     color: #080808;
+}
+
+.myplayer-app .view-playlist .playlist-container h1 #load-more {
+    display: block;
+    font-size: 1rem;
+    padding: var(--inner-gap);
+    border: thin solid #634AFD;
+    border-radius: var(--gap);
+    line-height: 1;
+    background-color: transparent;
+    border-color: #634AFD;
+    color: #634AFD;
+}
+
+.myplayer-app .view-playlist .playlist-container h1 #load-more:hover {
+    background-color: #7661FE;
+    border-color: #9d8efe;
+    color: #ffffff;
+}
+
+.myplayer-app .view-playlist .playlist-container h1 #load-more i {
+    margin-right: 8px;
 }
 
 .myplayer-app .view-playlist .playlist-container .songs-list {
