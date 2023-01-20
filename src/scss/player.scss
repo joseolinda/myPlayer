@@ -274,11 +274,12 @@
     border-radius: var(--inner-gap);
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .myplayer-app .playlist-container {
     display: none;
+    overflow-y: auto;
 }
 
 .myplayer-app .view-playlist #playlist-controls {
@@ -358,10 +359,6 @@
     margin-left: 2px;
 }
 
-.myplayer-app .view-playlist .playlist-container .songs-list .song-item-play i.fa-pause::before {
-    margin: 0 2px;
-}
-
 .myplayer-app .view-playlist .playlist-container .songs-list .song-item-text {
     display: flex;
     flex-direction: column;
@@ -399,6 +396,10 @@
 
 .myplayer-app .view-playlist .playlist-container .song-details {
     cursor: pointer;
+    position: relative;
+    right: 0;
+    opacity: 1;
+    transition: right 0.3s ease-in, opacity 0.4s ease-out;
 }
 
 .myplayer-app .view-playlist .playlist-container .song-details.active-song .song-item-play i {
@@ -412,6 +413,11 @@
 
 .myplayer-app .view-playlist .playlist-container .song-details.active-song .song-item-text strong {
     color: #7661FE;
+}
+
+.myplayer-app .view-playlist .playlist-container .song-details.active-song .song-item-play i.fa-play::before {
+    content: '\f04c';
+    margin: 0 2px;
 }
 
 
