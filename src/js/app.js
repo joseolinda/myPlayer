@@ -1,277 +1,288 @@
-import apiNapster from "../js/services/apiNapster.js"
-import swipeleft from "./utils/swipe.js"
+import Player from './modules/Player.js';
+import Playlist from './modules/Playlist.js';
+import UIManager from './modules/UIManager.js';
+import swipeLeft from './utils/swipe.js';
+import '../scss/main.scss'; // Import styles for Vite
 
-// Mapear elementos
-const backBtn = document.querySelector("#back-to-playlist")
-const favBtn = document.querySelector("#fav-song")
-const statusSong = document.querySelector("#status-song")
-const albumCoverImg = document.querySelector("#album-cover")
+class App {
+    constructor() {
+        this.ui = new UIManager();
+        this.playlist = new Playlist();
+        this.player = new Player(document.getElementById('audio-player'));
 
-const currentDuration = document.querySelector("#current-duration")
-const totalDuration = document.querySelector("#total-duration")
-const progressBar = document.querySelector("#progress-bar")
-const progressBarContainer = document.querySelector(".progress-bar-container")
+        this.currentIndex = 0;
+        this.activeTab = 'playlist'; // 'playlist' or 'favorites'
 
-const song = document.querySelector("#song")
-const songTitle = document.querySelector("#music-playing h1")
-const songartistNames = document.querySelector("#music-playing h2")
-
-const prevSongBtn = document.querySelector("#songs-control a.prev")
-const playSongBtn = document.querySelector("#songs-control a.play")
-const nextSongBtn = document.querySelector("#songs-control a.next")
-
-const footer = document.querySelector("footer")
-const playlistControls = document.querySelector("#playlist-controls")
-const showPlaylist = document.querySelector("#show-playlist")
-
-const playlistContainer = document.querySelector(".playlist-container")
-const loadMoreSongsBtn = document.querySelector("#load-more")
-const songsPlaylist = document.querySelector(".playlist-container .songs-list")
-
-// Lista de músicas
-const localSongs = [
-    {
-        id: "hey",
-        previewURL: "hey",
-        name: "Hey [Instumental]",
-        artistName: "The Beatles",
-        albumId: "hey.jpg",
-        duration: "02:51",
-        type: "local"
-    },
-    {
-        id: "summer",
-        previewURL: "summer",
-        name: "Summer Beats",
-        artistName: "Summer EletroHits",
-        albumId: "summer.jpg",
-        duration: "03:37",
-        type: "local"
-    },
-    {
-        id: "ukulele",
-        previewURL: "ukulele",
-        name: "Ukulele Song",
-        artistName: "Eddie Vader",
-        albumId: "ukulele.jpg",
-        duration: "02:26",
-        type: "local"
-    },
-]
-
-let songs = []
-
-// Montar playlist quando array sons[] mudar
-const proxySongs = new Proxy(songs, {
-    deleteProperty: function (target, property) {
-        if(target[property].id) removeSongToPlaylist(target[property])
-        delete target[property]
-        return true
-    },
-    set: function (target, property, value, receiver) {
-        if(value.id) {
-            value._id = value.id.split(".").join("_")
-            addSongToPlaylist(value)
-        }        
-        target[property] = value
-        return true
+        this.init();
     }
-})
 
-proxySongs.push(...localSongs)
-
-
-// Conectar api
-function getMoreSongs(total, offset) {
-    const songsFromNapster = apiNapster(total, offset)
-    songsFromNapster.then(tracks => {
-    proxySongs.push(...tracks)
-    }).catch(err => console.log("Erro na API Napster", err))
-}
-
-getMoreSongs(5, 0)
-
-// Música atual
-let songIndex = 0
-
-// Iniciar player
-loadSong(songs[songIndex])
-
-// Mostrar informações da música
-function loadSong(songObj) {
-    songTitle.innerText = songObj.name
-    albumCoverImg.src = songObj.type === "local" ? `src/js/media/images/${songObj.albumId}` : `http://direct.rhapsody.com/imageserver/v2/albums/${songObj.albumId}/images/400x400.jpg`
-    songartistNames.innerText = songObj.artistName
-
-    song.src = songObj.type === "local" ? `src/js/media/musics/${songObj.previewURL}.mp3` : songObj.previewURL
-}
-
-// Tocar Música
-function playSong() {
-    playSongBtn.classList.add("playing")
-    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-play')
-    playSongBtn.querySelector('i.fa-solid').classList.add('fa-pause')
-
-    document.querySelector(`#playlist-container .active-song`)?.classList.remove("active-song")
-    document.querySelector(`#playlist-container #track-${songs[songIndex]._id}`)?.classList.add("active-song")
-
-    song.play()
-}
-
-// Parar Música
-function pauseSong() {
-    playSongBtn.classList.remove("playing")
-    playSongBtn.querySelector('i.fa-solid').classList.remove('fa-pause')
-    playSongBtn.querySelector('i.fa-solid').classList.add('fa-play')
-
-    document.querySelector(`#playlist-container .active-song`)?.classList.remove("active-song")
-
-    song.pause()
-}
-
-// Voltar Música
-function prevSong(e) {
-    e.preventDefault()
-
-    songIndex--
-
-    if (songIndex < 0)
-        songIndex = songs.length - 1
-
-    loadSong(songs[songIndex])
-    playSong()
-
-}
-
-// Avançar Música
-function nextSong(e) {
-    if (e) e.preventDefault()
-
-    songIndex++
-
-    if (songIndex > songs.length - 1)
-        songIndex = 0
-
-    loadSong(songs[songIndex])
-    playSong()
-}
-
-// Converter duração em minutos e segundos
-function convertDuration(audioCurrentTime) {
-    const minutes = String(Math.floor(audioCurrentTime / 60)).padStart(2, '0')
-    const seconds = String(Math.floor(audioCurrentTime - minutes * 60)).padStart(2, '0')
-    const dur = minutes.substring(-2) + ":" + seconds.substring(-2)
-
-    return dur
-}
-
-// Atualizar barra de progresso
-function updateProgress(e) {
-    const { duration, currentTime } = e.srcElement
-    const progressPercent = (currentTime / duration) * 100
-    progressBar.style.width = `${progressPercent}%`
-
-    currentDuration.innerText = currentTime ? convertDuration(currentTime) : "--:--"
-    totalDuration.innerText = duration ? convertDuration(duration) : "--:--"
-}
-
-// Atualizar barra de progresso ao clicar na barra
-function updateProgressOnClick(e) {
-    const { duration } = song
-    const clickedPercent = e.layerX * 100 / e.target.clientWidth
-
-    song.currentTime = 0
-    song.currentTime = (duration * clickedPercent.toFixed(0) / 100).toFixed(0)
-}
-
-// Eventos
-playSongBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-
-    const isPlaying = playSongBtn.classList.contains("playing")
-
-    if (isPlaying) {
-        pauseSong()
-        statusSong.innerText = "paused"
-    } else {
-        playSong()
-        statusSong.innerText = "now playing"
+    init() {
+        this.setupEventListeners();
+        this.loadInitialState();
     }
-})
 
-prevSongBtn.addEventListener("click", prevSong)
-nextSongBtn.addEventListener("click", nextSong)
+    setupEventListeners() {
+        // Play/Pause
+        this.ui.elements.playBtn.addEventListener('click', () => this.togglePlay());
 
-song.addEventListener('timeupdate', updateProgress)
-progressBarContainer.addEventListener("click", updateProgressOnClick)
-favBtn.addEventListener("click", e => {
-    favBtn.style.color = "#f09"
-})
+        // Favorite
+        this.ui.elements.favBtn.addEventListener('click', () => this.toggleFavorite());
 
-// Tocar próxima música quando a atual acabar
-song.addEventListener("ended", () => {
-    setTimeout(nextSong, 400)
-})
+        // Next/Prev
+        this.ui.elements.nextBtn.addEventListener('click', () => this.nextSong());
+        this.ui.elements.prevBtn.addEventListener('click', () => this.prevSong());
 
+        // Audio Events
+        this.player.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.player.audio.addEventListener('ended', () => this.nextSong());
+        this.player.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+        this.player.audio.addEventListener('play', () => this.ui.setPlayState(true));
+        this.player.audio.addEventListener('pause', () => this.ui.setPlayState(false));
 
-// Playlist
-function handelShowPlaylist() {
-    footer.classList.toggle("view-playlist")
-}
+        // Progress Bar Click
+        this.ui.elements.progressContainer.addEventListener('click', (e) => {
+            const width = this.ui.elements.progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const percent = (clickX / width) * 100;
+            this.player.seek(percent);
+        });
 
-function handelClickSongInPlaylist(e) {
-    const item = e.closest("li")
-
-    if(item) {
-        let findById = item.id.replace("track-", "").replace("_", ".")
-        const foundedSongIndex = songs.findIndex(s => s.id === findById)
-        songIndex = foundedSongIndex ?? 0
-        loadSong(songs[songIndex])
-        playSong()
-    }
-}
-
-function removeSongToPlaylist(s) {
-    
-    if (songs.length === 1) pauseSong()
-
-    const toRemove = songsPlaylist.querySelector(`#track-${s._id}`)
-    songsPlaylist.removeChild(toRemove)
-}
-
-function addSongToPlaylist(s) {
-    const newSong = `<li id="track-${s._id}" class="song-details">
-                        <span class="song-item-play"><i class="fa-solid fa-play"></i></span>
-                        <span class="song-item-text">
-                            <strong class="song-name">${s.name}</strong><em class="song-artist">${s.artistName}</em>
-                        </span>
-                        <span class="song-item-duration">${s.duration ?? "00:30"}</span>
-                    </li>`
-    songsPlaylist.innerHTML += newSong
-
-    document.querySelectorAll("#playlist-container .song-details").forEach(listItem => {
-        swipeleft(listItem, () => {
-            let findById = listItem.id.replace("track-", "").replace("_", ".")
-            const foundedSongIndex = songs.findIndex(ns => ns._id === findById)
-
-            songs.splice(foundedSongIndex, 1)
-
-            if(listItem.classList.contains("active-song")) {
-                songIndex++
-                prevSongBtn.click()
+        // Playlist Toggle
+        this.ui.elements.showPlaylistBtn.addEventListener('click', () => {
+            this.switchPlaylistView('playlist');
+            if (!this.ui.elements.playlistContainer.classList.contains('active')) {
+                this.ui.togglePlaylist();
             }
-            listItem.parentElement.removeChild(listItem)
-        })
-    })
+        });
+
+        this.ui.elements.showFavoritesBtn.addEventListener('click', () => {
+            this.switchPlaylistView('favorites');
+            if (!this.ui.elements.playlistContainer.classList.contains('active')) {
+                this.ui.togglePlaylist();
+            }
+        });
+
+        this.ui.elements.backToPlaylistBtn.addEventListener('click', () => this.ui.togglePlaylist());
+
+        // Load More
+        this.ui.elements.loadMoreBtn.addEventListener('click', () => this.loadMoreSongs());
+
+        // Play specific song from playlist
+        document.addEventListener('play-song-index', (e) => {
+            this.playSongAtIndex(e.detail);
+            // Close playlist on mobile if song selected
+            if (window.innerWidth < 768) {
+                this.ui.togglePlaylist();
+            }
+        });
+    }
+
+    loadInitialState() {
+        this.renderPlaylist();
+        this.loadSong(this.currentIndex);
+        this.ui.setActiveTab('playlist');
+    }
+
+    loadSong(index) {
+        // Always get from the main list for playback to ensure continuity
+        // Or if we want to play ONLY from favorites when in favorites view, we need to adjust this.
+        // For now, let's keep playback linear based on the full list, but UI shows filtered.
+        // BUT, if the user clicks a song in the filtered list, we need to know which one it is.
+
+        // Actually, to support playing from favorites, we should probably track the "current playlist" context.
+        // However, to keep it simple for this refactor:
+        // We will play from the "all songs" list, but if the user clicks a song in the playlist view,
+        // we find that song in the main list and play it.
+
+        const song = this.playlist.getSong(index);
+        if (!song) return;
+
+        this.currentIndex = index;
+        this.player.load(song);
+        this.ui.updateSongInfo(song);
+
+        // Update favorite button state
+        const isFav = this.playlist.isFavorite(song._id);
+        this.ui.toggleFavorite(isFav);
+
+        this.ui.highlightActiveSong(index, this.getCurrentViewSongs());
+
+        // Reset progress
+        this.ui.updateProgress(0);
+        this.ui.updateTime("0:00", "0:00");
+    }
+
+    togglePlay() {
+        this.player.toggle();
+    }
+
+    toggleFavorite() {
+        const song = this.playlist.getSong(this.currentIndex);
+        if (song) {
+            const isFav = this.playlist.toggleFavorite(song); // Returns true if added (isFav)
+            this.ui.toggleFavorite(isFav);
+
+            // If we are in favorites view, re-render to show/hide the song
+            if (this.activeTab === 'favorites') {
+                this.renderPlaylist();
+            }
+        }
+    }
+
+    playSongAtIndex(indexInView) {
+        // If we are in favorites view, the index corresponds to the favorites array
+        // We need to find the corresponding index in the main songs array
+
+        let realIndex = indexInView;
+
+        if (this.activeTab === 'favorites') {
+            const favorites = this.playlist.getFavorites();
+            const song = favorites[indexInView];
+            const allSongs = this.playlist.getAllSongs();
+            realIndex = allSongs.findIndex(s => s._id === song._id);
+        }
+
+        if (realIndex !== -1) {
+            this.loadSong(realIndex);
+            this.player.play();
+        }
+    }
+
+    nextSong() {
+        if (this.activeTab === 'favorites') {
+            const favorites = this.playlist.getFavorites();
+            if (favorites.length === 0) return;
+
+            const currentSong = this.playlist.getSong(this.currentIndex);
+            let currentFavIndex = favorites.findIndex(f => f._id === currentSong._id);
+
+            let nextFavIndex = currentFavIndex + 1;
+            if (nextFavIndex >= favorites.length) {
+                nextFavIndex = 0;
+            }
+            this.playSongAtIndex(nextFavIndex);
+        } else {
+            let nextIndex = this.currentIndex + 1;
+            if (nextIndex >= this.playlist.getAllSongs().length) {
+                nextIndex = 0;
+            }
+            this.playSongAtIndex(nextIndex);
+        }
+    }
+
+    prevSong() {
+        if (this.activeTab === 'favorites') {
+            const favorites = this.playlist.getFavorites();
+            if (favorites.length === 0) return;
+
+            const currentSong = this.playlist.getSong(this.currentIndex);
+            let currentFavIndex = favorites.findIndex(f => f._id === currentSong._id);
+
+            let prevFavIndex = currentFavIndex - 1;
+            if (prevFavIndex < 0) {
+                prevFavIndex = favorites.length - 1;
+            }
+            this.playSongAtIndex(prevFavIndex);
+        } else {
+            let prevIndex = this.currentIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = this.playlist.getAllSongs().length - 1;
+            }
+            this.playSongAtIndex(prevIndex);
+        }
+    }
+
+    updateProgress() {
+        const { currentTime, duration } = this.player.audio;
+        if (!duration) return;
+
+        const percent = (currentTime / duration) * 100;
+        this.ui.updateProgress(percent);
+
+        const currentFormatted = this.player.formatTime(currentTime);
+        const totalFormatted = this.player.formatTime(duration);
+        this.ui.updateTime(currentFormatted, totalFormatted);
+    }
+
+    updateDuration() {
+        const { duration } = this.player.audio;
+        const totalFormatted = this.player.formatTime(duration);
+        this.ui.updateTime("0:00", totalFormatted);
+    }
+
+    async loadMoreSongs() {
+        const currentCount = this.playlist.getAllSongs().length;
+        const newSongs = await this.playlist.fetchMoreSongs(5, currentCount);
+
+        if (newSongs.length > 0) {
+            this.renderPlaylist();
+        }
+    }
+
+    switchPlaylistView(view) {
+        this.activeTab = view;
+        this.ui.setActiveTab(view);
+        this.ui.updatePlaylistHeader(view === 'favorites' ? 'Liked Songs' : 'Playlist');
+        this.renderPlaylist();
+    }
+
+    getCurrentViewSongs() {
+        return this.activeTab === 'favorites'
+            ? this.playlist.getFavorites()
+            : this.playlist.getAllSongs();
+    }
+
+    renderPlaylist() {
+        const songs = this.getCurrentViewSongs();
+
+        // We need to pass the "active index" relative to the current view
+        let activeIndexInView = -1;
+        const currentSong = this.playlist.getSong(this.currentIndex);
+
+        if (currentSong) {
+            activeIndexInView = songs.findIndex(s => s._id === currentSong._id);
+        }
+
+        this.ui.renderPlaylist(songs, activeIndexInView);
+
+        // Re-attach swipe events to new elements
+        songs.forEach((song, indexInView) => {
+            const li = document.getElementById(`track-${song._id}`);
+            if (li) {
+                swipeLeft(li, () => {
+                    // Handle swipe removal
+                    // If in favorites, remove from favorites
+                    // If in playlist, remove from playlist
+
+                    if (this.activeTab === 'favorites') {
+                        this.playlist.toggleFavorite(song);
+                    } else {
+                        const allSongs = this.playlist.getAllSongs();
+                        const realIndex = allSongs.findIndex(s => s._id === song._id);
+                        if (realIndex !== -1) {
+                            this.playlist.removeSong(realIndex);
+                            // If removing current song, play next or stop
+                            if (realIndex === this.currentIndex) {
+                                if (this.playlist.getAllSongs().length > 0) {
+                                    this.nextSong();
+                                } else {
+                                    this.player.pause();
+                                    this.ui.setPlayState(false);
+                                }
+                            } else if (realIndex < this.currentIndex) {
+                                // Adjust current index if removing a song before it
+                                this.currentIndex--;
+                            }
+                        }
+                    }
+                    this.renderPlaylist();
+                });
+            }
+        });
+    }
 }
 
-// Eventos Playlist
-showPlaylist.addEventListener("click", handelShowPlaylist)
-songsPlaylist.addEventListener("click", e => {
-    handelClickSongInPlaylist(e.target)
-})
-songsPlaylist.addEventListener("touchend", () => songsPlaylist.click())
-backBtn.addEventListener("click", handelShowPlaylist)
-loadMoreSongsBtn.addEventListener("click", e => {
-    getMoreSongs(5, 5)
-})
+// Initialize App
+document.addEventListener('DOMContentLoaded', () => {
+    new App();
+});

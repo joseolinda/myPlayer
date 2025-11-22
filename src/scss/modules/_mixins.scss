@@ -1,0 +1,40 @@
+// Mixins
+@use 'variables' as *;
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin mobile {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin hover-effect {
+    transition: $transition-fast;
+
+    &:hover {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}

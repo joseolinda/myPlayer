@@ -1,0 +1,39 @@
+// Base Styles
+@use 'variables' as *;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font-family-main;
+    background-color: $background-dark;
+    color: $text-primary;
+    line-height: 1.6;
+    overflow: hidden; // Prevent scroll on body, handle in main/playlist
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+    outline: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}

@@ -4,9 +4,9 @@
   "description": "HTML5 Player build with Vanilla JS",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp icons buildStyles minify-css watch",
-    "serve": "http-server -c-1 -O"
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -28,12 +28,7 @@
   "homepage": "https://github.com/joseolinda/myPlayer#readme",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
-    "gulp": "^4.0.2",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-sass": "^5.1.0",
-    "http-server": "^14.1.1",
-    "node-sass": "^8.0.0",
-    "nodemon": "^2.0.20",
-    "sass": "^1.57.1"
+    "sass": "^1.94.2",
+    "vite": "^7.2.4"
   }
 }

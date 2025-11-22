@@ -1,74 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>myPlayer - Playing: ...</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="dist/css/global.css">
-    <link rel="stylesheet" href="dist/css/player.css">
-  </head>
 
-  <body>
-      <main id="container-app-player">
-        <div class="myplayer-app">
-          <header>
-            <nav class="navigation">
-              <ul>
-                <li><a id="back-to-playlist" href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-                <li id="status-song"></li>
-                <li><a id="fav-song" href="#"><i class="fa-regular fa-heart"></i></a></li>
-              </ul>
-            </nav>
-            <img id="album-cover" src="src/js/media/images/default-cover.jpg" alt="Album cover" class="album-cover">
-          </header>
-          <main>
-            <div id="main-controllers">
-              <div class="progress">
-                <div class="duration">
-                  <span id="current-duration">1:24</span>
-                  <span id="total-duration">2:46</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="progress-bar" class="progress-bar"></div>
-                </div>
-              </div>
-              <div id="music-playing">
-                <h1>Different World (feat. Gorillaz)</h1>
-                <h2>Alan Walker, Gorillaz</h2>
-                <audio id="song" src="src/js/media/musics/hey.mp3" id="audio"></audio>
-              </div>
-              <div class="controllers">
-                <ul id="songs-control" class="songs-control">
-                  <li><a class="prev" href="#"><i class="fa-solid fa-backward"></i></a></li>
-                  <li><a class="play" href="#"><i class="fa-solid fa-play"></i></a></li>
-                  <li><a class="next" href="#"><i class="fa-solid fa-forward"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </main>
-          <footer>
-            <div id="playlist-controls">
-              <a href="#" id="show-playlist"><i class="fa-solid fa-bars-staggered"></i><span>Abrir Playlist</span></a>
-            </div>
-            <div id="playlist-container" class="playlist-container">
-              <h1>
-                <span>Playlist</span>
-                <a id="load-more" href="#">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Mais música
-                </a>
-              </h1>
-              <ul class="songs-list">
-                
-              </ul>
-            </div>
-          </footer>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>myPlayer - Web Music Player</title>
+  <meta name="description" content="A modern web music player built with Vanilla JS and Vite.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <div id="app" class="myplayer-app">
+    <header class="player-header">
+      <nav class="navigation">
+        <ul>
+          <li><button id="back-to-playlist" aria-label="Back to playlist"><i
+                class="fa-solid fa-chevron-left"></i></button></li>
+          <li id="status-song" class="status-text">Now Playing</li>
+          <li><button id="fav-song" aria-label="Favorite song"><i class="fa-regular fa-heart"></i></button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="player-main">
+      <div id="main-controllers" class="controls-wrapper">
+        <div class="progress-area">
+          <div class="time-display">
+            <span id="current-duration">0:00</span>
+            <span id="total-duration">0:00</span>
+          </div>
+          <div class="progress-bar-container" id="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
         </div>
-      </main>
 
-      <script type="module" src="src/js/app.js"></script>
-  </body>
+        <div id="music-info" class="music-info">
+          <div class="album-cover-wrapper">
+            <img id="album-cover" src="/media/images/default-cover.jpg" alt="Album cover" class="album-cover">
+          </div>
+          <h1 id="song-title">Select a song</h1>
+          <h2 id="artist-name">Artist</h2>
+          <audio id="audio-player"></audio>
+        </div>
+
+        <div class="playback-controls">
+          <button class="control-btn prev" id="prev-btn" aria-label="Previous song"><i
+              class="fa-solid fa-backward"></i></button>
+          <button class="control-btn play" id="play-btn" aria-label="Play song"><i
+              class="fa-solid fa-play"></i></button>
+          <button class="control-btn next" id="next-btn" aria-label="Next song"><i
+              class="fa-solid fa-forward"></i></button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="player-footer">
+      <div id="playlist-controls" class="playlist-toggle">
+        <button id="show-playlist-btn" aria-label="Open playlist">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Playlist</span>
+        </button>
+        <button id="show-favorites-btn" aria-label="Open favorites">
+          <i class="fa-solid fa-heart"></i>
+          <span>Liked</span>
+        </button>
+      </div>
+
+      <aside id="playlist-container" class="playlist-container" aria-hidden="true">
+        <header class="playlist-header">
+          <h1>Playlist</h1>
+          <button id="load-more-btn" class="load-more">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Load More
+          </button>
+        </header>
+        <ul id="songs-list" class="songs-list">
+          <!-- Songs will be injected here -->
+        </ul>
+      </aside>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/js/app.js"></script>
+</body>
+
 </html>

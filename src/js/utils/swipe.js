@@ -1,53 +1,57 @@
-function swipeleft(el, callBack) {
-    if(! (el instanceof HTMLElement)) {
-        console.log("swipe error", "O elemento passado não é um elemento HTML")
-        return
+/**
+ * Adds swipe-left functionality to an element
+ * @param {HTMLElement} el - The element to attach the swipe listener to
+ * @param {Function} callback - Function to execute when swipe is completed
+ */
+export default function swipeLeft(el, callback) {
+    if (!(el instanceof HTMLElement)) {
+        console.error("swipe error: Element provided is not an HTMLElement");
+        return;
     }
 
-    el.addEventListener('touchstart', e => {
-        el.dataset.x = Number(e.touches[0].pageX) + Number(el.dataset.move ?? 0) || 0
-    })
+    let startX = 0;
+    let currentX = 0;
+    const threshold = 120; // px to trigger callback
 
-    el.addEventListener('touchmove', e => {
-        let moveX = el.dataset.x ? Number(el.dataset.x) - e.touches[0].pageX : 0
-        moveX > 130 ? moveX = 130 : 0
-        moveX < -130 ? moveX = -130 : 0
+    el.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX;
+        // Reset transition for dragging
+        el.style.transition = 'none';
+    }, { passive: true });
 
-        el.dataset.move = moveX
+    el.addEventListener('touchmove', (e) => {
+        const touchX = e.touches[0].pageX;
+        const diffX = startX - touchX;
 
-        if(moveX > 0) {
-            el.style.right = moveX + "px"
+        // Only allow swiping left (positive diffX)
+        if (diffX > 0) {
+            // Limit drag distance
+            const moveX = Math.min(diffX, 150);
+            el.style.transform = `translateX(-${moveX}px)`;
+
+            // Fade out effect
+            const opacity = 1 - (moveX / 300);
+            el.style.opacity = opacity;
+
+            currentX = moveX;
         }
+    }, { passive: true });
 
-        if(moveX > 50) {
-            let newOpacity = Math.abs(el.style.opacity) - Math.abs(moveX) / 10000
-            el.style.opacity = newOpacity > -1 ? newOpacity : 0
+    el.addEventListener('touchend', () => {
+        el.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+        if (currentX > threshold) {
+            // Swipe completed
+            el.style.transform = 'translateX(-100%)';
+            el.style.opacity = '0';
+            setTimeout(callback, 300);
         } else {
-            let newOpacity = Math.abs(el.style.opacity) + Math.abs(moveX) / 100
-            el.style.opacity = newOpacity > 0 ? newOpacity : 1
+            // Reset
+            el.style.transform = 'translateX(0)';
+            el.style.opacity = '1';
         }
-    })
 
-    el.addEventListener('touchend', e => {
-
-        let elementMove = el.dataset.move || 0;
-
-        el.dataset.x = 0
-        el.dataset.move = 0
-
-        console.log(Number(elementMove))
-
-        if(Number(elementMove) < 120) {
-            el.style.opacity = 1
-            el.style.right = 0
-        } else {
-            el.style.opacity = 0
-            el.style.right = 300
-            console.log(callBack)
-            setTimeout(callBack, 380)
-        }
-    })
-
+        currentX = 0;
+        startX = 0;
+    });
 }
-
-export default swipeleft
